@@ -1,7 +1,5 @@
-from collections import namedtuple
 import logging
 from fastapi import APIRouter
-from py import code
 from pydantic import BaseModel
 from ..services.itofoo import Itofoo
 
