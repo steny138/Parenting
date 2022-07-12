@@ -1,0 +1,131 @@
+import json
+import requests
+import logging
+
+from ..utility import now_timestamp, to_timestamp
+from .event_type import EventType
+
+logger = logging.getLogger('fastapi')
+
+
+class Itofoo(object):
+
+    ITOFOO_DOMAIN = "https://service.itofoo.com"
+    ITOFOO_AUTH = "/auth/service"
+    ITOFOO_KIDSRUN = "/kidsrun/service"
+    __header = {
+        "screen": "375.0*812.0*3.0",
+        "system": "iOS/15.5",
+        "device": "iPhone",
+        "app": "com.zeon.GuardianCare/11.6",
+        "version": "7.8"
+    }
+    BABYID = 51503
+
+    def __init__(self):
+        self._session = requests.Session()
+        self._session.auth = (
+            "com.zeon.toddlercare-guardiancare", "zeon.@itp.itofoo")
+        self.__login()
+
+    def __del__(self):
+        self._session.close()
+
+    def user_info(self):
+        payload = {
+            "request": "QUERYUSERINFO",
+            "parameters": {
+
+            },
+            "header": self.__header
+        }
+
+        resp = self._session.post(
+            f'{self.ITOFOO_DOMAIN}{self.ITOFOO_AUTH}', json=payload)
+
+        return resp.json()
+
+    def baby_info(self):
+        payload = {
+            "request": "QUERYBABY",
+            "parameters": {
+
+            },
+            "header": self.__header
+        }
+        resp = self._session.post(
+            f'{self.ITOFOO_DOMAIN}{self.ITOFOO_KIDSRUN}', json=payload)
+
+        return resp.json()
+
+    def pickup_baby(self):
+        payload = {
+            "parameters": json.dumps({
+                "time": {
+                    "utc": now_timestamp()
+                },
+                "tag": 0,
+                "eventuuid": "1D601FF3-7387-47DC-8629-8FC193559D4D",  # 預告接小孩事件
+                "event": {
+                    "guardianrelation": "Dad",
+                    "minutesarrive": 15,
+                    "type": 45,
+                    "pickuptime": {
+                        "utc": to_timestamp(15)  # 預計到達接送時間
+                    }
+                },
+                "babyid": self.BABYID,
+                "type": 45
+            }),
+            "header": json.dumps(self.__header)
+        }
+        resp = self._session.post(
+            f'{self.ITOFOO_DOMAIN}/event/add', data=payload)
+
+        return resp.text
+
+    def baby_departured(self):
+        self.__qrcode_event(EventType.Departure)
+
+    def baby_arrivals(self):
+        self.__qrcode_event(EventType.Arrivals)
+
+    def __login(self):
+        payload = {
+            "request": "LOGIN",
+            "parameters": {
+                "app": "com.zeon.GuardianCare",
+                "username": "steny138@gmail.com",
+                "password": "alison138"
+            },
+            "header": self.__header
+        }
+
+        resp = self._session.post(
+            f'{self.ITOFOO_DOMAIN}/auth/login', json=payload)
+
+        logger.info(Itofoo.__login.__name__, resp.json())
+
+    def __qrcode_event(self, type):
+        payload = {
+            "request": "ADDBABYEVENT",
+            "parameters": {
+                "time": {
+                    "utc": now_timestamp()
+                },
+                "event": {
+                    "type": type,
+                    "guardian": "Dad"
+                },
+                "babyid": self.BABYID,
+                "type": type
+            },
+            "header": self.__header
+        }
+
+        resp = self._session.post(
+            f'{self.ITOFOO_DOMAIN}/v1/qrcode/kindergarten/952/20210721/',
+            json=payload,
+            params={"action": "addbabyevent"})
+
+        print(Itofoo.qrcode_event.__name__, resp.json())
