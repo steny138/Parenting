@@ -128,4 +128,4 @@ class Itofoo(object):
             json=payload,
             params={"action": "addbabyevent"})
 
-        print(Itofoo.qrcode_event.__name__, resp.json())
+        print(Itofoo.__qrcode_event.__name__, resp.json())
