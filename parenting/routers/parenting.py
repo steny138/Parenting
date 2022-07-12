@@ -1,5 +1,8 @@
+from collections import namedtuple
 import logging
 from fastapi import APIRouter
+from py import code
+from pydantic import BaseModel
 from ..services.itofoo import Itofoo
 
 
@@ -14,6 +17,11 @@ router = APIRouter(
 )
 
 
+class Response(BaseModel):
+    code: str
+    response: str
+
+
 @router.get('/user')
 async def get_user():
     return services.user_info()
@@ -24,16 +32,16 @@ async def get_baby():
     return services.baby_info()
 
 
-@router.post("/baby/departure")
+@router.post("/baby/departure", response_model=Response)
 async def departure():
     return services.baby_departured()
 
 
-@router.post("/baby/arrivals")
+@router.post("/baby/arrivals", response_model=Response)
 async def arrivals():
     return services.baby_arrivals()
 
 
-@router.post("/baby/pickup")
+@router.post("/baby/pickup", response_model=Response)
 async def pickup():
     return services.pickup_baby()
