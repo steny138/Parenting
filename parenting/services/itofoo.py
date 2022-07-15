@@ -5,7 +5,7 @@ import logging
 from ..utility import now_timestamp, to_timestamp
 from .event_type import EventType
 
-logger = logging.getLogger('fastapi')
+logger = logging.getLogger(__name__)
 
 
 class Itofoo(object):
@@ -82,13 +82,15 @@ class Itofoo(object):
         resp = self._session.post(
             f'{self.ITOFOO_DOMAIN}/event/add', data=payload)
 
+        logger.debug(resp.text)
+
         return resp.text
 
     def baby_departured(self):
-        self.__qrcode_event(EventType.Departure)
+        return self.__qrcode_event(EventType.Departure)
 
     def baby_arrivals(self):
-        self.__qrcode_event(EventType.Arrivals)
+        return self.__qrcode_event(EventType.Arrivals)
 
     def __login(self):
         payload = {
@@ -104,7 +106,7 @@ class Itofoo(object):
         resp = self._session.post(
             f'{self.ITOFOO_DOMAIN}/auth/login', json=payload)
 
-        logger.info(Itofoo.__login.__name__, resp.json())
+        logger.debug(resp.json())
 
     def __qrcode_event(self, type):
         payload = {
@@ -128,4 +130,4 @@ class Itofoo(object):
             json=payload,
             params={"action": "addbabyevent"})
 
-        print(Itofoo.__qrcode_event.__name__, resp.json())
+        logging.debug(resp.json())

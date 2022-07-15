@@ -1,14 +1,15 @@
+import json
 import logging
 from fastapi import APIRouter
 from pydantic import BaseModel
 from ..services.itofoo import Itofoo
+import uvicorn
 
-
-logger = logging.getLogger("fastapi")
+logger = logging.getLogger(__name__)
 
 # initial itofoo service
 services = Itofoo()
-
+uvicorn.Config
 router = APIRouter(
     prefix="/parenting",
     tags=["parenting"],
@@ -28,6 +29,14 @@ async def get_user():
 @router.get("/baby")
 async def get_baby():
     return services.baby_info()
+
+
+@router.get("/test", response_model=Response)
+async def test():
+    result = services.baby_info()
+    resp = Response(**result)
+    logger.info(resp)
+    return result
 
 
 @router.post("/baby/departure", response_model=Response)
