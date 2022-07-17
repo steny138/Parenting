@@ -131,3 +131,5 @@ class Itofoo(object):
             params={"action": "addbabyevent"})
 
         logging.debug(resp.json())
+
+        return resp.json()
