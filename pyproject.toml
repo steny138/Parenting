@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "parenting"
+version = "0.1.0"
+description = ""
+authors = ["Yuchen Liu <steny138@gmail.com>"]
+license = "Apache License 2.0"
+
+[tool.poetry.dependencies]
+python = "3.10.6"
+pytz = "^2022.1"
+fastapi = "^0.78.0"
+uvicorn = "^0.18.2"
+requests = "^2.28.1"
+hypercorn = {extras = ["trio"], version = "^0.13.2"}
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+autopep8 = "^1.6.0"
+pytest = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
