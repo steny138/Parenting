@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
-# expose port 8000
-EXPOSE 8000
+# expose port 8080
+EXPOSE 8080
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -40,4 +40,4 @@ COPY . /app/
 
 
 
-CMD ["uvicorn","parenting.app:app","--host=0.0.0.0","--port=8000"]
+CMD ["uvicorn","parenting.app:app","--host=0.0.0.0","--port=8080"]

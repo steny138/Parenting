@@ -23,6 +23,11 @@ class Response(BaseModel):
     response: str
 
 
+@router.get('/user_name')
+async def get_user_name():
+    return services.user_name
+
+
 @router.get('/user')
 async def get_user():
     return services.user_info()

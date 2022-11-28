@@ -1,5 +1,6 @@
 from .event_type import EventType
 from ..utility import now_timestamp, to_timestamp
+import os
 import json
 import requests
 import logging
@@ -20,7 +21,7 @@ class Itofoo(object):
         "app": "com.zeon.GuardianCare/11.6",
         "version": "7.8"
     }
-    BABYID = 51503
+    BABYID = os.getenv("IToFooBabyId")
 
     def __init__(self, username, password):
         self.user_name = username
