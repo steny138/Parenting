@@ -1,6 +1,7 @@
 FROM python:3.10-slim
 
-ARG PORT=5000
+# expose port 8000
+EXPOSE 8000
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -37,7 +38,6 @@ RUN poetry config virtualenvs.create false && \
 # copy project
 COPY . /app/
 
-# expose port 8000
-EXPOSE 8000
 
-CMD ["uvicorn", "parenting.app:app", "--host", "0.0.0.0","--port", "${PORT}", "--log-config", "./parenting/logging.conf", "--workers", "2"]
+
+CMD ["uvicorn","parenting.app:app","--host=0.0.0.0","--port=8000"]
