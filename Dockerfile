@@ -40,4 +40,4 @@ COPY . /app/
 # expose port 8000
 EXPOSE 8000
 
-CMD ["uvicorn", "--host", "0.0.0.0","--bind", "${PORT:-5000}", "--log-config", "./parenting/logging.conf", "--workers", "2", "parenting.app:app"]
+CMD ["uvicorn", "parenting.app:app", "--host", "0.0.0.0","--port", "${PORT}", "--log-config", "./parenting/logging.conf", "--workers", "2"]
