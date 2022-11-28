@@ -6,7 +6,7 @@ authors = ["Yuchen Liu <steny138@gmail.com>"]
 license = "Apache License 2.0"
 
 [tool.poetry.dependencies]
-python = "3.10.6"
+python = "3.10.8"
 pytz = "^2022.1"
 fastapi = "^0.78.0"
 uvicorn = "^0.18.2"
