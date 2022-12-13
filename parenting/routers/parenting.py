@@ -52,6 +52,7 @@ async def departure():
 
     return services.baby_departure()
 
+
 @router.post("/baby/arrivals", response_model=Response)
 async def arrivals():
     return services.baby_arrivals()
