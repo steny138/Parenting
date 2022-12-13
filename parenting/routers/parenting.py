@@ -60,7 +60,7 @@ async def arrivals():
 
 @router.post("/baby/pickup", response_model=Response)
 async def pickup():
-    # if not services.could_pickup():
-    #     return {}
+    if not services.could_pickup():
+        return {}
 
     return services.pickup_baby()
