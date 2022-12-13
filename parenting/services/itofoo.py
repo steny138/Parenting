@@ -89,7 +89,7 @@ class Itofoo(object):
         resp = self._session.post(
             f'{self.ITOFOO_DOMAIN}/event/add', files=files)
 
-        logging.debug(resp.json())
+        logger.debug(resp.json())
 
         return resp.json()
 
@@ -144,6 +144,6 @@ class Itofoo(object):
             json=payload,
             params={"action": "addbabyevent"})
 
-        logging.debug(resp.json())
+        logger.debug(resp.json())
 
         return resp.json()
