@@ -48,8 +48,9 @@ async def test():
 
 @router.post("/baby/departure", response_model=Response)
 async def departure():
-    return services.baby_departure()
+    services.set_ready_to_pickup()
 
+    return services.baby_departure()
 
 @router.post("/baby/arrivals", response_model=Response)
 async def arrivals():
@@ -58,4 +59,7 @@ async def arrivals():
 
 @router.post("/baby/pickup", response_model=Response)
 async def pickup():
+    if not services.could_pickup():
+        return {}
+
     return services.pickup_baby()

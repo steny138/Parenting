@@ -1,3 +1,4 @@
+import datetime
 from .event_type import EventType
 from ..utility import now_timestamp, to_timestamp
 import os
@@ -31,6 +32,8 @@ class Itofoo(object):
         self._session.auth = (
             "com.zeon.toddlercare-guardiancare", "zeon.@itp.itofoo")
         self.__login()
+
+        self.current_pick = None
 
     def __del__(self):
         self._session.close()
@@ -95,6 +98,13 @@ class Itofoo(object):
 
     def baby_arrivals(self):
         return self.__qrcode_event(EventType.Arrivals)
+
+    def set_ready_to_pickup(self):
+        self.current_pick = datetime.datetime.now()
+
+    def could_pickup(self):
+        return self.current_pick and \
+                self.current_pick > datetime.datetime.today()
 
     def __login(self):
         payload = {
