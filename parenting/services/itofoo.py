@@ -104,7 +104,7 @@ class Itofoo(object):
 
     def could_pickup(self):
         return self.current_pick and \
-                self.current_pick > datetime.datetime.today()
+            self.current_pick > datetime.datetime.now().date()
 
     def __login(self):
         payload = {

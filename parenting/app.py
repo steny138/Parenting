@@ -5,11 +5,12 @@ import time
 from fastapi import FastAPI
 from starlette.requests import Request
 
-from .routers import parenting
+from .routers import parenting, tdx
 
 app = FastAPI(debug=True)
 
 app.include_router(parenting.router)
+app.include_router(tdx.router)
 
 logger = logging.getLogger(__name__)
 
