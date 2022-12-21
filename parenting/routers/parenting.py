@@ -54,14 +54,14 @@ async def test():
 @router.post("/baby/departure", response_model=Response)
 async def departure():
 
-    estimates = []
-    estimates.append(tdx.get_bus_estimate_time("NewTaipei", "704", 131511))
+    #estimates = []
+    #estimates.append(tdx.get_bus_estimate_time("NewTaipei", "704", 131511))
 
-    services.set_ready_to_pickup()
+    #services.set_ready_to_pickup()
 
     resp = services.baby_departure()
 
-    resp["estimate"] = estimates
+    #resp["estimate"] = estimates
 
     return resp
 
