@@ -99,7 +99,7 @@ class Itofoo(object):
     def baby_arrivals(self):
         return self.__qrcode_event(EventType.Arrivals)
 
-    def set_ready_to_pickup(self):
+    def set_ready_to_pickup(self, ):
         self.current_pick = datetime.datetime.now()
 
     def could_pickup(self):

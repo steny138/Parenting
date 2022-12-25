@@ -28,6 +28,12 @@ class Response(BaseModel):
     response: str
 
 
+class EstimateResponse(BaseModel):
+    code: str
+    response: str
+    estimate: list
+
+
 @router.get('/user_name')
 async def get_user_name():
     return services.user_name
@@ -43,23 +49,28 @@ async def get_baby():
     return services.baby_info()
 
 
-@router.get("/test", response_model=Response)
+@router.get("/test", response_model=EstimateResponse)
 async def test():
     resp = services.baby_info()
 
     estimates = []
     estimates.append(tdx.get_bus_estimate_time("NewTaipei", "704", 131511))
 
-    services.set_ready_to_pickup()
-
     resp["estimate"] = estimates
 
     return resp
 
 
-@router.post("/baby/departure", response_model=Response)
+@router.post("/baby/departure", response_model=EstimateResponse)
 async def departure():
-    return services.baby_departure()
+    estimates = []
+    estimates.append(tdx.get_bus_estimate_time("NewTaipei", "704", 131511))
+
+    resp = services.baby_departure()
+
+    resp["estimate"] = estimates
+
+    return resp
 
 
 @router.post("/baby/arrivals", response_model=Response)
