@@ -40,7 +40,7 @@ class TDX(object):
 
         diff = datetime.datetime.now().astimezone() - last_update_time
         seconds = estimate_time - diff.total_seconds()
-    
+
         return {
             "stop_name": stop_name,
             "estimate_seconds": seconds,

@@ -45,25 +45,21 @@ async def get_baby():
 
 @router.get("/test", response_model=Response)
 async def test():
-    result = services.baby_info()
-    resp = Response(**result)
-    logger.info(resp)
-    return result
+    resp = services.baby_info()
+
+    estimates = []
+    estimates.append(tdx.get_bus_estimate_time("NewTaipei", "704", 131511))
+
+    services.set_ready_to_pickup()
+
+    resp["estimate"] = estimates
+
+    return resp
 
 
 @router.post("/baby/departure", response_model=Response)
 async def departure():
-
-    #estimates = []
-    #estimates.append(tdx.get_bus_estimate_time("NewTaipei", "704", 131511))
-
-    #services.set_ready_to_pickup()
-
-    resp = services.baby_departure()
-
-    #resp["estimate"] = estimates
-
-    return resp
+    return services.baby_departure()
 
 
 @router.post("/baby/arrivals", response_model=Response)
@@ -71,19 +67,6 @@ async def arrivals():
     return services.baby_arrivals()
 
 
-@router.post("/baby/test_pickup", response_model=Response)
-async def test_pickup():
-    services.set_ready_to_pickup()
-
-    return {
-        "code": "OK",
-        "response": "right now"
-    }
-
-
 @ router.post("/baby/pickup", response_model=Response)
 async def pickup():
-    if not services.could_pickup():
-        return {}
-
     return services.pickup_baby()
