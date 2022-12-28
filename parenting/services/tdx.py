@@ -19,6 +19,10 @@ class TDX(object):
             f"?$filter=RouteName/En eq '{route_no}'&$top=1&$format=JSON"
 
         resp = requests.get(url, headers=self.__data_header())
+        if resp.status_code == requests.codes.unauthorized:
+            self.auth_response = None
+
+            resp = requests.get(url, headers=self.__data_header())
 
         return resp.json() or []
 
@@ -31,7 +35,7 @@ class TDX(object):
         if resp.status_code == requests.codes.unauthorized:
             self.auth_response = None
 
-            return {}
+            resp = requests.get(url, headers=self.__data_header())
 
         estimate = resp.json()[0]
 
