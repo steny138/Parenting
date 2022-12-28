@@ -28,6 +28,11 @@ class TDX(object):
 
         resp = requests.get(url, headers=self.__data_header())
 
+        if resp.status_code == requests.codes.unauthorized:
+            self.auth_response = None
+
+            return {}
+
         estimate = resp.json()[0]
 
         stop_name = estimate["StopName"]["Zh_tw"]
